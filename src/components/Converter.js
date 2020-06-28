@@ -80,10 +80,10 @@ class Converter extends Component {
             </Form.Group>
             <Form.Group controlId="formCurrencyFrom">
               <Form.Label>
-                Currency to convert from (letters only, 3 characters):
+                Currency to convert from (letters only, 3 characters, uppercase):
               </Form.Label>
               <Form.Control
-                pattern="[A-Za-z]{3}"
+                pattern="[A-Z]{3}"
                 required
                 type="text"
                 value={this.state.currencyFrom}
@@ -94,11 +94,11 @@ class Converter extends Component {
             </Form.Group>
             <Form.Group controlId="formCurrencyTo">
               <Form.Label>
-                Currency to convert to (letters only, 3 characters):
+                Currency to convert to (letters only, 3 characters, uppercase):
               </Form.Label>
               <Form.Control
                 required
-                pattern="[A-Za-z]{3}"
+                pattern="[A-Z]{3}"
                 type="text"
                 value={this.state.currencyTo}
                 onChange={this.handleChange}
