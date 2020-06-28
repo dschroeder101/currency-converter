@@ -44,10 +44,8 @@ function calculateResult(baseAmount, baseToEuroRate, euroToTargetRate) {
 
 app.post("/convert", (req, res) => {
   let year = req.body.date.year;
-  let month =
-    req.body.date.month < 10 ? "0" + req.body.date.month : req.body.date.month;
-  let date =
-    req.body.date.day < 10 ? "0" + req.body.date.day : req.body.date.day;
+  let month = req.body.date.month;
+  let date = req.body.date.day;
 
   let dateAsString = year + "-" + month + "-" + date;
 
@@ -58,12 +56,23 @@ app.post("/convert", (req, res) => {
     .then(
       (fixerResponse) => {
         console.log(fixerResponse);
-        const result = calculateResult(
-          req.body.amount,
-          fixerResponse.data.rates[req.body.baseCurrency],
-          fixerResponse.data.rates[req.body.targetCurrency]
-        );
-        return res.status(200).send(result);
+        if (fixerResponse.data.success) {
+          const result = calculateResult(
+            req.body.amount,
+            fixerResponse.data.rates[req.body.baseCurrency],
+            fixerResponse.data.rates[req.body.targetCurrency]
+          );
+          return res.status(200).send(result);
+        } else {
+          return res
+            .status(500)
+            .send(
+              "Error making fixer request - " +
+                fixerResponse.data.error.type +
+                " - " +
+                fixerResponse.data.error.info
+            );
+        }
       },
       (error) => {
         console.log(error);

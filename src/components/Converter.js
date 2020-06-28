@@ -40,9 +40,17 @@ class Converter extends Component {
         },
       })
       .then((result) => {
-        this.setState({
-          result: "$" + result.data,
-        });
+        if (result.status === 200) {
+          this.setState({
+            result: "$" + result.data + " " + this.state.currencyTo,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(
+          "Something went wrong - check your input fields for errors and try again"
+        );
       });
   };
 
@@ -57,10 +65,12 @@ class Converter extends Component {
           <h2>Convert currency</h2>
           <Form action="" onSubmit={this.handleSubmit}>
             <Form.Group controlId="formAmount">
-              <Form.Label>Amount to convert (numbers only):</Form.Label>
+              <Form.Label>
+                Amount to convert (numbers only, maximum 2 decimal places):
+              </Form.Label>
               <Form.Control
                 required
-                pattern="[0-9]*"
+                pattern="^[0-9]+(\.[0-9]([0-9])?)?$"
                 type="text"
                 value={this.state.amount}
                 onChange={this.handleChange}
@@ -69,8 +79,11 @@ class Converter extends Component {
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="formCurrencyFrom">
-              <Form.Label>Currency to convert from:</Form.Label>
+              <Form.Label>
+                Currency to convert from (letters only, 3 characters):
+              </Form.Label>
               <Form.Control
+                pattern="[A-Za-z]{3}"
                 required
                 type="text"
                 value={this.state.currencyFrom}
@@ -80,9 +93,12 @@ class Converter extends Component {
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="formCurrencyTo">
-              <Form.Label>Currency to convert to:</Form.Label>
+              <Form.Label>
+                Currency to convert to (letters only, 3 characters):
+              </Form.Label>
               <Form.Control
                 required
+                pattern="[A-Za-z]{3}"
                 type="text"
                 value={this.state.currencyTo}
                 onChange={this.handleChange}
@@ -94,6 +110,7 @@ class Converter extends Component {
               <Form.Group as={Col} controlId="formYear">
                 <Form.Label>Year (YYYY)</Form.Label>
                 <Form.Control
+                  pattern="[0-9]{4}"
                   required
                   type="text"
                   value={this.state.year}
@@ -101,11 +118,15 @@ class Converter extends Component {
                   placeholder="Year ex. 2020"
                   name="year"
                 ></Form.Control>
+                <Form.Text className="text-muted">
+                  Note: Results are only available going back to 1999
+                </Form.Text>
               </Form.Group>
               <Form.Group as={Col} controlId="formMonth">
                 <Form.Label>Month (MM)</Form.Label>
                 <Form.Control
                   required
+                  pattern="[0-9]{2}"
                   type="text"
                   value={this.state.month}
                   onChange={this.handleChange}
@@ -117,6 +138,7 @@ class Converter extends Component {
                 <Form.Label>Day (DD)</Form.Label>
                 <Form.Control
                   required
+                  pattern="[0-9]{2}"
                   type="text"
                   value={this.state.day}
                   onChange={this.handleChange}
@@ -132,9 +154,7 @@ class Converter extends Component {
           </Form>
         </Jumbotron>
         <div>
-          <p>
-            Result: {this.state.result} {this.state.currencyTo}
-          </p>
+          <p>Result: {this.state.result}</p>
         </div>
       </div>
     );
