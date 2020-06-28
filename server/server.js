@@ -24,8 +24,8 @@ app.get("/", (req, res) => {
 
   fs.readFile(indexFile, "utf8", (err, data) => {
     if (err) {
-      console.error("Something went wrong: ", err);
-      return res.status(500).send("500 - Encountered error on server");
+      console.error("Error encountered on server: ", err);
+      return res.status(500).send("500 - Server error occurred");
     }
 
     return res.send(
@@ -49,7 +49,7 @@ app.post("/convert", (req, res) => {
   let date =
     req.body.date.day < 10 ? "0" + req.body.date.day : req.body.date.day;
 
-  let dateAsString = year + "-" + month + "-" + dt;
+  let dateAsString = year + "-" + month + "-" + date;
 
   axios
     .get(
@@ -63,11 +63,11 @@ app.post("/convert", (req, res) => {
           fixerResponse.data.rates[req.body.baseCurrency],
           fixerResponse.data.rates[req.body.targetCurrency]
         );
-        return res.status(200).json(result);
+        return res.status(200).send(result);
       },
       (error) => {
         console.log(error);
-        res.status(500).send("Server error occurred");
+        res.status(500).send("500 - Server error occurred");
       }
     );
 });
