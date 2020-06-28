@@ -41,7 +41,7 @@ class Converter extends Component {
       })
       .then((result) => {
         this.setState({
-          result: result.data,
+          result: "$" + result.data,
         });
       });
   };
@@ -133,7 +133,7 @@ class Converter extends Component {
         </Jumbotron>
         <div>
           <p>
-            Result: ${this.state.result} {this.state.currencyTo}
+            Result: {this.state.result} {this.state.currencyTo}
           </p>
         </div>
       </div>
