@@ -24,6 +24,8 @@ A POST endpoint at /convert accepts a request with a JSON body formatted like so
 }
 ```
 
+The server includes a caching mechanism using Redis to limit queries to Fixer's API. A key is created from a hash of the two currencies being converted and the requested date. If this key already exists, the currency is converted using the cached rates.
+
 The React front-end displays a submission form with the corresponding fields. The form is contained in src/components/Converter.js. This component is responsible for handling state and making requests to the server's /convert endpoint.
 
 To ensure precision is retained when multiplying and dividing currency by the converstion rates, server.js utilizes [Big.js](http://mikemcl.github.io/big.js/) 
