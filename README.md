@@ -8,7 +8,7 @@ Built using React + Express + Node and bootstrapped using creat-react-app.
 
 ## Notes
 
-/server/server.js is responsible for pre-rendering the React front-end, making the API calls to Fixer.io, and calculating the currency conversions.
+/server/server.js is responsible for pre-rendering and serving the React front-end, making the API calls to Fixer.io, and calculating the currency conversions.
 
 A POST endpoint at /convert accepts a request with a JSON body formatted like so:
 
