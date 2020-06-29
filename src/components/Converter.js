@@ -7,7 +7,7 @@ class Converter extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendFormData = this.sendFormData.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
 
     this.state = {
       amount: "",
@@ -40,21 +40,19 @@ class Converter extends Component {
         },
       })
       .then((result) => {
-        if (result.status === 200) {
-          this.setState({
-            result: "$" + result.data + " " + this.state.currencyTo,
-          });
-        }
+        this.setState({
+          result: "$" + result.data + " " + this.state.currencyTo,
+        });
       })
       .catch((err) => {
         console.log(err);
         alert(
-          "Something went wrong - check your input fields for errors and try again"
+          "Something went wrong - check the input fields for errors and try again"
         );
       });
   };
 
-  handleChange = (e) => {
+  handleInputChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -73,21 +71,22 @@ class Converter extends Component {
                 pattern="^[0-9]+(\.[0-9]([0-9])?)?$"
                 type="text"
                 value={this.state.amount}
-                onChange={this.handleChange}
+                onChange={this.handleInputChange}
                 placeholder="Enter amount to convert"
                 name="amount"
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="formCurrencyFrom">
               <Form.Label>
-                Currency to convert from (letters only, 3 characters, uppercase):
+                Currency to convert from (letters only, 3 characters,
+                uppercase):
               </Form.Label>
               <Form.Control
                 pattern="[A-Z]{3}"
                 required
                 type="text"
                 value={this.state.currencyFrom}
-                onChange={this.handleChange}
+                onChange={this.handleInputChange}
                 placeholder="Currency to convert from eg. USD"
                 name="currencyFrom"
               ></Form.Control>
@@ -101,7 +100,7 @@ class Converter extends Component {
                 pattern="[A-Z]{3}"
                 type="text"
                 value={this.state.currencyTo}
-                onChange={this.handleChange}
+                onChange={this.handleInputChange}
                 placeholder="Currency to convert from eg. CAD"
                 name="currencyTo"
               ></Form.Control>
@@ -114,7 +113,7 @@ class Converter extends Component {
                   required
                   type="text"
                   value={this.state.year}
-                  onChange={this.handleChange}
+                  onChange={this.handleInputChange}
                   placeholder="Year ex. 2020"
                   name="year"
                 ></Form.Control>
@@ -129,7 +128,7 @@ class Converter extends Component {
                   pattern="[0-9]{2}"
                   type="text"
                   value={this.state.month}
-                  onChange={this.handleChange}
+                  onChange={this.handleInputChange}
                   placeholder="Month ex. 06"
                   name="month"
                 ></Form.Control>
@@ -141,7 +140,7 @@ class Converter extends Component {
                   pattern="[0-9]{2}"
                   type="text"
                   value={this.state.day}
-                  onChange={this.handleChange}
+                  onChange={this.handleInputChange}
                   placeholder="Day ex. 22"
                   name="day"
                 ></Form.Control>

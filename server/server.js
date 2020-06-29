@@ -35,6 +35,7 @@ app.get("/", (req, res) => {
 });
 
 function calculateResult(baseAmount, baseToEuroRate, euroToTargetRate) {
+  // Convert all values to Big to retain precision
   let baseBig = new Big(baseAmount);
   let baseToEuroBig = new Big(baseToEuroRate);
   let euroToTargetBig = new Big(euroToTargetRate);
@@ -43,15 +44,13 @@ function calculateResult(baseAmount, baseToEuroRate, euroToTargetRate) {
 }
 
 app.post("/convert", (req, res) => {
-  let year = req.body.date.year;
-  let month = req.body.date.month;
-  let date = req.body.date.day;
-
-  let dateAsString = year + "-" + month + "-" + date;
+  console.log(req.body);
+  let formattedDate =
+    req.body.date.year + "-" + req.body.date.month + "-" + req.body.date.day;
 
   axios
     .get(
-      `http://data.fixer.io/api/${dateAsString}?access_key=${process.env.FIXER_KEY}&symbols=${req.body.baseCurrency},${req.body.targetCurrency}`
+      `http://data.fixer.io/api/${formattedDate}?access_key=${process.env.FIXER_KEY}&symbols=${req.body.baseCurrency},${req.body.targetCurrency}`
     )
     .then(
       (fixerResponse) => {
